@@ -1,0 +1,12 @@
+{
+  "cSpell.words": [
+    "cuid",
+    "Minut",
+    "openapi",
+    "pino"
+  ],
+  "yaml.schemas": {
+    "file:///Users/gugfug/.vscode/extensions/atlassian.atlascode-3.0.2/resources/schemas/pipelines-schema.json": "bitbucket-pipelines.yml",
+    "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.0/schema.json": "file:///Users/gugfug/Projects/the-booking-system/apps/api/src/openapi.yaml"
+  }
+}
