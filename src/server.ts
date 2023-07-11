@@ -8,7 +8,7 @@ import { propertiesRouter } from "./v1/routes";
 
 export const createServer = (): Express => {
   const app = express();
-  const apiSpecPath = path.resolve(__dirname, "../public/openapi.yaml")
+  const apiSpecPath = path.resolve(__dirname, "./public/openapi.yaml")
 
   app
     .disable("x-powered-by")
