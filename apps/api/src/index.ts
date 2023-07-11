@@ -3,4 +3,4 @@ import { createServer } from "./server";
 const port = process.env.PORT || 5001;
 const server = createServer();
 
-server.listen(Number(port));
+server.listen(Number(port), '0.0.0.0');

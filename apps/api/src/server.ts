@@ -12,7 +12,6 @@ export const createServer = (): Express => {
     process.env.TEST_MODE === "on"
       ? path.resolve(__dirname, "../public/openapi.yaml")
       : path.resolve(__dirname, "./openapi.yaml");
-  console.log(apiSpecPath, process.env.TEST_MODE);
 
   app
     .disable("x-powered-by")
