@@ -1,0 +1,89 @@
+openapi: '3.0.0'
+
+info:
+  version: 1.0.0
+  title: The Booking System API
+  description: The assignment for the Minut
+
+paths:
+  /v1/properties:
+    get:
+      summary: Get all properties
+      operationId: getProperties
+      tags:
+        - properties
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Property'
+    post:
+      summary: Create a new property
+      operationId: createProperty
+      tags:
+        - properties
+      requestBody:
+        description: The property to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Property'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+
+components:
+  schemas:
+    Property:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - address
+        - price
+        - currency
+        - bedrooms
+        - bathrooms
+        - image
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The property ID
+        name:
+          type: string
+          description: The property name
+        description:
+          type: string
+          description: The property description
+        address:
+          type: string
+          description: The property address
+        price:
+          type: number
+          format: float
+          description: The property price
+        currency:
+          type: string
+          description: The property currency
+        bedrooms:
+          type: integer
+          format: int32
+          description: The property bedrooms
+        bathrooms:
+          type: integer
+          format: int32
+          description: The property bathrooms
+        image:
+          type: string
+          description: The property image
