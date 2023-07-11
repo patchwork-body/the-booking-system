@@ -24,7 +24,7 @@ export const createServer = (): Express => {
         validateResponses: true,
       })
     )
-    .use("/v1", propertiesRouter);
+    .use("/api/v1", propertiesRouter);
 
   return app;
 };
