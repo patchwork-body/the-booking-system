@@ -73,7 +73,7 @@ propertiesRouter.post("/properties", (req, res) => __async(void 0, null, functio
 // src/server.ts
 var createServer = () => {
   const app = (0, import_express2.default)();
-  const apiSpecPath = process.env.TEST_MODE === "on" ? import_path.default.resolve(__dirname, "../public/openapi.yaml") : import_path.default.resolve(__dirname, "./openapi.yaml");
+  const apiSpecPath = import_path.default.resolve(__dirname, "./public/openapi.yaml");
   app.disable("x-powered-by").use((0, import_morgan.default)("dev")).use((0, import_body_parser.urlencoded)({ extended: true })).use((0, import_body_parser.json)()).use((0, import_cors.default)()).use(import_express2.default.static(apiSpecPath)).use(
     OpenApiValidator.middleware({
       apiSpec: apiSpecPath,
