@@ -1,4 +1,9 @@
-import serverless from 'serverless-http';
-import { createApp } from './app';
+import { createApp } from "./app";
+import { logger } from "./logger";
 
-export const handler = serverless(createApp());
+const port = process.env.PORT || 5001;
+const server = createApp();
+
+server.listen(Number(port), '0.0.0.0', () => {
+  logger.info(`Server listening on port ${port}`);
+});
