@@ -1,10 +1,10 @@
 import supertest from "supertest";
 import { describe, it, expect } from "vitest";
-import { createServer } from "../server";
+import { createApp } from "../app";
 
 describe("server", () => {
   it("return empty array", async () => {
-    await supertest(createServer())
+    await supertest(createApp())
       .get("/v1/properties")
       .expect(200)
       .then((res) => {

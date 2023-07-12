@@ -1,6 +1,4 @@
-import { createServer } from "./server";
+import serverless from 'serverless-http';
+import { createApp } from './app';
 
-const port = process.env.PORT || 5001;
-const server = createServer();
-
-server.listen(Number(port), '0.0.0.0');
+export const handler = serverless(createApp());

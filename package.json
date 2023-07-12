@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "test": "TEST_MODE=on vitest",
-    "build": "tsup src/index.ts --format cjs --publicDir",
+    "compile": "tsup src/index.ts --format cjs --publicDir",
+    "build": "netlify-lambda build dist",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "dev": "tsup src/index.ts --format cjs --publicDir --watch --onSuccess \"node dist/index.js\"",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\"",
@@ -32,6 +33,7 @@
     "@types/supertest": "^2.0.12",
     "esbuild": "^0.18.11",
     "eslint": "^7.32.0",
+    "netlify-lambda": "^2.0.16",
     "pino-pretty": "^10.0.1",
     "supertest": "^6.2.4",
     "tsup": "^7.1.0",
