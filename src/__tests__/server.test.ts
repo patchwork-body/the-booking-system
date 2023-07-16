@@ -70,7 +70,7 @@ describe('auth', () => {
 
   it('revoke refresh token', async () => {
     await supertest(createApp())
-      .delete('/v1/auth/revoke')
+      .post('/v1/auth/revoke')
       .accept('application/json')
       .send({ refreshToken: owner.refreshToken })
       .expect(204);

@@ -1,10 +1,11 @@
 import { propertyService } from '@app/v1/services';
-import { Request, Router } from 'express';
+import { Request, Response, Router } from 'express';
 import { validateRequest } from 'zod-express-middleware';
 import { z } from 'zod';
 import { logger } from 'src/logger';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { isAuthorized } from '../middlewares/authorized';
+import { isOwner } from '../middlewares/is-owner';
 
 export const propertiesRouter = Router();
 
@@ -88,6 +89,7 @@ propertiesRouter.get(
 propertiesRouter.post(
   '/properties',
   isAuthorized,
+  isOwner(),
   validateRequest({
     body: z.object({
       name: z.string().min(1).max(255),
@@ -99,8 +101,8 @@ propertiesRouter.post(
       bathrooms: z.number().min(0),
     }),
   }),
-  async (req: Request, res) => {
-    logger.info(`Creating property ${req.body.name} by user ${req.jwtPayload?.userId}`);
+  async (req: Request, res: Response) => {
+    logger.info(`Creating property ${req.body.name} by user ${req.jwtPayload?.ownerId}`);
 
     try {
       const property = await propertyService.create({
@@ -109,9 +111,49 @@ propertiesRouter.post(
       });
 
       logger.debug('Property created', property);
-      logger.info(`Property ${property.id} created by user ${req.jwtPayload?.userId}`);
+      logger.info(`Property ${property.id} created by user ${req.jwtPayload?.ownerId}`);
 
       return res.status(201).json(property);
+    } catch (error) {
+      if (
+        error instanceof PrismaClientKnownRequestError &&
+        error.message.includes('Unique constraint failed')
+      ) {
+        logger.error(error.message);
+        return res.status(400).json({ message: 'The property with this name already exists' });
+      }
+
+      logger.fatal(error);
+      return res.status(500).json({ message: 'Something went wrong' });
+    }
+  },
+);
+
+propertiesRouter.post(
+  '/properties/:id',
+  isAuthorized,
+  isOwner({ certain: true }),
+  validateRequest({
+    body: z.object({
+      name: z.string().min(1).max(255).optional(),
+      description: z.string().max(255).nullable().optional(),
+      address: z.string().min(1).max(255).optional(),
+      price: z.number().min(0).optional(),
+      currency: z.string().min(3).max(3).optional(),
+      bedrooms: z.number().min(0).optional(),
+      bathrooms: z.number().min(0).optional(),
+    }),
+  }),
+  async (req: Request, res: Response) => {
+    logger.info(`Updating property ${req.params.id} by user ${req.jwtPayload?.ownerId}`);
+
+    try {
+      const property = await propertyService.update(req.params.id, req.body);
+
+      logger.debug('Property updated', property);
+      logger.info(`Property ${property.id} updated by user ${req.jwtPayload?.ownerId}`);
+
+      return res.status(200).json(property);
     } catch (error) {
       if (
         error instanceof PrismaClientKnownRequestError &&

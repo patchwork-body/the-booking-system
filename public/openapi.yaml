@@ -324,6 +324,70 @@ paths:
                   message:
                     type: string
                     description: The error message
+    post:
+      summary: Update a property by ID
+      security:
+        - bearerAuth: []
+      operationId: updateProperty
+      tags:
+        - properties
+      parameters:
+        - name: id
+          in: path
+          description: The property ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The property to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PropertyRequestBody'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+        '400':
+          description: Bad property data
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+                    description: The error message
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+                    description: The error message
+        '404':
+          description: Property not found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+                    description: The error message
 
 components:
   securitySchemes:

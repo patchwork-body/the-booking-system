@@ -40,6 +40,23 @@ export interface PropertyService {
       | 'ownerId'
     >,
   ) => Promise<Property>;
+
+  update: (
+    id: string,
+    property: Partial<
+      Pick<
+        Property,
+        | 'name'
+        | 'description'
+        | 'address'
+        | 'price'
+        | 'price'
+        | 'currency'
+        | 'bathrooms'
+        | 'bedrooms'
+      >
+    >,
+  ) => Promise<Property>;
 }
 
 export const propertyService: PropertyService = {
@@ -80,6 +97,13 @@ export const propertyService: PropertyService = {
           },
         },
       },
+    });
+  },
+
+  update: async (id, property) => {
+    return prisma.property.update({
+      where: { id },
+      data: property,
     });
   },
 };
