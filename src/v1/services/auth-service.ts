@@ -8,7 +8,7 @@ import { Role, User } from '@prisma/client';
 
 export interface AuthService {
   login: (email: string, secret: string) => Promise<{ accessToken: string; refreshToken: string }>;
-  register: (user: Pick<User, 'name' | 'email' | 'role'>) => Promise<string>;
+  register: (user: Pick<User, 'name' | 'email' | 'phone' | 'role'>) => Promise<string>;
   refresh: (refreshToken: string) => Promise<string>;
   revoke: (refreshToken: string) => Promise<void>;
 }
@@ -47,7 +47,12 @@ export const authService: AuthService = {
     });
 
     const accessToken = jwt.sign(
-      { ownerId: user.propertyOwner?.id, guestId: user.guest?.id, role: user.role },
+      {
+        userId: user.id,
+        ownerId: user.propertyOwner?.id,
+        guestId: user.guest?.id,
+        role: user.role,
+      },
       process.env.JWT_SECRET,
       {
         expiresIn: '1h',
@@ -126,12 +131,17 @@ export const authService: AuthService = {
       throw new AuthError('User not found');
     }
 
-    if (typeof user.tokens[0] !== 'undefined' && user.tokens[0].id !== decoded.tokenId) {
+    if (typeof user.tokens[0] === 'undefined' || user.tokens[0].id !== decoded.tokenId) {
       throw new AuthError('Invalid refresh token');
     }
 
     return jwt.sign(
-      { ownerId: user.propertyOwner?.id, guestId: user.guest?.id, role: user.role },
+      {
+        userId: user.id,
+        ownerId: user.propertyOwner?.id,
+        guestId: user.guest?.id,
+        role: user.role,
+      },
       process.env.JWT_SECRET,
       { expiresIn: '1h' },
     );

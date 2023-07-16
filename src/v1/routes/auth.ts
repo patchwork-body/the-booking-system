@@ -5,6 +5,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { z } from 'zod';
 import { Role } from '@prisma/client';
 import { validateRequest } from 'zod-express-middleware';
+import parsePhoneNumber from 'libphonenumber-js';
 
 export const authRouter = Router();
 
@@ -30,10 +31,17 @@ authRouter.post(
     body: z.object({
       name: z.string(),
       email: z.string().email(),
+      phone: z.string().min(10).max(15),
       role: z.nativeEnum(Role),
     }),
   }),
   async (req, res) => {
+    const phone = parsePhoneNumber(req.body.phone, 'RU');
+
+    if (!phone || !phone.isValid()) {
+      return res.status(400).json({ message: 'Invalid phone number' });
+    }
+
     try {
       const password = await authService.register(req.body);
 

@@ -29,6 +29,7 @@ model User {
   updatedAt        DateTime          @updatedAt
   name             String
   email            String            @unique
+  phone            String            @unique
   password         String
   role             Role
   propertyOwner    PropertyOwner?
@@ -90,12 +91,13 @@ model Reservation {
   updatedAt  DateTime           @updatedAt
   property   Property           @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   propertyId String
-  guestId    String
   checkIn    DateTime
   checkOut   DateTime
   total      Float
   currency   String
   guests     GuestReservation[]
+
+  @@index([propertyId], name: "reservationPropertyId")
 }
 
 model Chat {
@@ -106,6 +108,8 @@ model Chat {
   property     Property?         @relation(fields: [propertyId], references: [id])
   propertyId   String?
   participants ChatParticipant[]
+
+  @@index([propertyId], name: "chatPropertyId")
 }
 
 model ChatParticipant {
@@ -126,4 +130,6 @@ model Message {
   chatId    String
   message   String
   read      Boolean  @default(false)
+
+  @@index([chatId], name: "messageChatId")
 }

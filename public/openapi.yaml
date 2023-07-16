@@ -1,7 +1,7 @@
 openapi: '3.0.0'
 
 info:
-  version: 1.0.0
+  version: 1.0.3
   title: The Booking System API
   description: The assignment for the Minut
 
@@ -294,17 +294,6 @@ paths:
           required: true
           schema:
             type: string
-        - name: include
-          in: query
-          description: The included fields
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
-              enum:
-                - owner
-                - guests
       responses:
         '200':
           description: OK
@@ -324,7 +313,7 @@ paths:
                   message:
                     type: string
                     description: The error message
-    post:
+    patch:
       summary: Update a property by ID
       security:
         - bearerAuth: []
@@ -344,7 +333,32 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PropertyRequestBody'
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The property name
+                description:
+                  type: string
+                  description: The property description
+                address:
+                  type: string
+                  description: The property address
+                price:
+                  type: number
+                  format: float
+                  description: The property price
+                currency:
+                  type: string
+                  description: The property currency
+                bedrooms:
+                  type: integer
+                  format: int32
+                  description: The property bedrooms
+                bathrooms:
+                  type: integer
+                  format: int32
+                  description: The property bathrooms
       responses:
         '200':
           description: OK
@@ -352,6 +366,239 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Property'
+        '400':
+          description: Bad property data
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Property not found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+    delete:
+      summary: Delete a property by ID
+      security:
+        - bearerAuth: []
+      operationId: deleteProperty
+      tags:
+        - properties
+      parameters:
+        - name: id
+          in: path
+          description: The property ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: OK
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Property not found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+
+  /v1/properties/{id}/owner:
+    get:
+      summary: Get a property owner by ID
+      operationId: getPropertyOwner
+      tags:
+        - properties
+      parameters:
+        - name: id
+          in: path
+          description: The property ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Owner'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Property owner not found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+                    description: Property owner not found
+
+  /v1/properties/{id}/reservations:
+    get:
+      summary: Get a property reservations by ID
+      operationId: getPropertyReservations
+      tags:
+        - properties
+      parameters:
+        - name: id
+          in: path
+          description: The property ID
+          required: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          description: The cursor to the next page
+          required: false
+          schema:
+            type: string
+        - name: include
+          in: query
+          description: additional data to include
+          required: false
+          schema:
+            type: string
+            enum:
+              - outdated
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Reservation'
+                  cursor:
+                    type: string
+                    nullable: true
+                    description: The cursor to the next page
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Property reservations not found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+                    description: Property reservations not found
+    post:
+      summary: create a new property reservation
+      security:
+        - bearerAuth: []
+      operationId: createPropertyReservation
+      tags:
+        - properties
+      parameters:
+        - name: id
+          in: path
+          description: The property ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The reservation to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservationRequestBody'
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
         '400':
           description: Bad property data
           content:
@@ -388,6 +635,313 @@ paths:
                   message:
                     type: string
                     description: The error message
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+
+  /v1/properties/{id}/chats:
+    get:
+      summary: Get a property chats by ID
+      operationId: getPropertyChats
+      tags:
+        - properties
+      parameters:
+        - name: id
+          in: path
+          description: The property ID
+          required: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          description: The cursor to the next page
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Chat'
+                  cursor:
+                    type: string
+                    nullable: true
+                    description: The cursor to the next page
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Property chats not found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+
+  /v1/guests/{id}/reservations:
+    get:
+      summary: Get a guest reservations by ID
+      operationId: getGuestReservations
+      tags:
+        - guests
+      parameters:
+        - name: id
+          in: path
+          description: The guest ID
+          required: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          description: The cursor to the next page
+          required: false
+          schema:
+            type: string
+        - name: include
+          in: query
+          description: additional data to include
+          required: false
+          schema:
+            type: string
+            enum:
+              - outdated
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Reservation'
+                  cursor:
+                    type: string
+                    nullable: true
+                    description: The cursor to the next page
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+                    description: The error message
+        '404':
+          description: Guest reservations not found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+                    description: the error message
+
+  /v1/guests/{id}/chats:
+    get:
+      summary: Get a guest chats by ID
+      operationId: getGuestChats
+      tags:
+        - guests
+      parameters:
+        - name: id
+          in: path
+          description: The guest ID
+          required: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          description: The cursor to the next page
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Chat'
+                  cursor:
+                    type: string
+                    nullable: true
+                    description: The cursor to the next page
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Guest chats not found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+
+  /v1/reservations/{id}:
+    get:
+      summary: Get a reservation by ID
+      operationId: getReservation
+      tags:
+        - reservations
+      parameters:
+        - name: id
+          in: path
+          description: The reservation ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Reservation not found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+
+  /v1/chats/{id}/messages:
+    get:
+      summary: Get a guest chat messages by ID
+      operationId: getChatMessages
+      tags:
+        - chats
+      parameters:
+        - name: id
+          in: path
+          description: The chat ID
+          required: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          description: The cursor to the next page
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Message'
+                  cursor:
+                    type: string
+                    nullable: true
+                    description: The cursor to the next page
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Guest chat messages not found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
 
 components:
   securitySchemes:
@@ -568,3 +1122,170 @@ components:
               type: string
               format: email
               description: The owner email
+
+    Owner:
+      type: object
+      required:
+        - id
+        - name
+        - email
+      properties:
+        id:
+          type: string
+          description: The owner ID
+        createdAt:
+          type: string
+          format: date-time
+          description: The owner creation date
+        updatedAt:
+          type: string
+          format: date-time
+          description: The owner update date
+        name:
+          type: string
+          description: The owner name
+        email:
+          type: string
+          format: email
+          description: The owner email
+
+    Reservation:
+      type: object
+      required:
+        - id
+        - propertyId
+        - checkIn
+        - checkOut
+        - total
+        - currency
+      properties:
+        id:
+          type: string
+          description: The reservation ID
+        createdAt:
+          type: string
+          format: date-time
+          description: The reservation creation date
+        updatedAt:
+          type: string
+          format: date-time
+          description: The reservation update date
+        propertyId:
+          type: string
+          description: The property ID
+        guestId:
+          type: string
+          description: The guest ID
+        checkIn:
+          type: string
+          format: date-time
+          description: The reservation check-in date
+        checkOut:
+          type: string
+          format: date-time
+          description: The reservation check-out date
+        total:
+          type: number
+          format: float
+          description: The reservation total
+        currency:
+          type: string
+          description: The reservation currency
+        guests:
+          type: array
+          items:
+            type: object
+            required:
+              - id
+              - name
+              - email
+              - phone
+            properties:
+              id:
+                type: string
+                description: The guest ID
+              name:
+                type: string
+                description: The guest name
+              email:
+                type: string
+                format: email
+                description: The guest email
+              phone:
+                type: string
+                description: The guest phone
+
+    ReservationRequestBody:
+      type: object
+      required:
+        - checkIn
+        - checkOut
+        - guestIds
+      properties:
+        checkIn:
+          type: string
+          format: date-time
+          description: The reservation check-in date
+        checkOut:
+          type: string
+          format: date-time
+          description: The reservation check-out date
+        guestIds:
+          type: array
+          items:
+            type: string
+            description: The guest ID
+
+    Chat:
+      type: object
+      required:
+        - id
+        - propertyId
+        - guestId
+      properties:
+        id:
+          type: string
+          description: The chat ID
+        createdAt:
+          type: string
+          format: date-time
+          description: The chat creation date
+        updatedAt:
+          type: string
+          format: date-time
+          description: The chat update date
+        propertyId:
+          type: string
+          description: The property ID
+        guestId:
+          type: string
+          description: The guest ID
+
+    Message:
+      type: object
+      required:
+        - id
+        - chatId
+        - senderId
+        - text
+      properties:
+        id:
+          type: string
+          description: The message ID
+        createdAt:
+          type: string
+          format: date-time
+          description: The message creation date
+        updatedAt:
+          type: string
+          format: date-time
+          description: The message update date
+        chatId:
+          type: string
+          description: The chat ID
+        senderId:
+          type: string
+          description: The sender ID
+        text:
+          type: string
+          description: The message text
