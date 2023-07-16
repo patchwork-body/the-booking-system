@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
     "cuid",
+    "middlewares",
     "Minut",
     "openapi",
     "pino"
@@ -8,5 +9,17 @@
   "yaml.schemas": {
     "file:///Users/gugfug/.vscode/extensions/atlassian.atlascode-3.0.2/resources/schemas/pipelines-schema.json": "bitbucket-pipelines.yml",
     "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.0/schema.json": "file:///Users/gugfug/Projects/the-booking-system/apps/api/src/openapi.yaml"
-  }
+  },
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.tabSize": 2,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
 }

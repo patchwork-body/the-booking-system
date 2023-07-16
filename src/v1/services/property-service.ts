@@ -1,18 +1,85 @@
-type Property = {
-  name: string;
-};
+import {
+  Guest,
+  GuestReservation,
+  Property,
+  PropertyOwner,
+  Reservation,
+  User,
+} from '@prisma/client';
+import { prisma } from './prisma/client';
 
 export interface PropertyService {
-  list: () => Promise<Property[]>;
-  create: (property: Property) => Promise<Property>;
+  byId: (
+    id: string,
+    includeOwner?: boolean,
+    includeGuests?: boolean,
+  ) => Promise<
+    | (Property & { owner?: PropertyOwner & { user?: Pick<User, 'name' | 'email'> } } & {
+        reservations?: Array<
+          Reservation & {
+            guests?: Array<
+              GuestReservation & { guest?: Guest & { user?: Pick<User, 'name' | 'email'> } }
+            >;
+          }
+        >;
+      })
+    | null
+  >;
+  list: (cursor?: string) => Promise<Property[]>;
+  create: (
+    property: Pick<
+      Property,
+      | 'name'
+      | 'description'
+      | 'address'
+      | 'price'
+      | 'price'
+      | 'currency'
+      | 'bathrooms'
+      | 'bedrooms'
+      | 'ownerId'
+    >,
+  ) => Promise<Property>;
 }
 
 export const propertyService: PropertyService = {
-  list: async () => {
-    return [];
+  byId: async (id, includeOwner, includeGuests) => {
+    return prisma.property.findUnique({
+      where: { id },
+      include: {
+        owner: includeOwner && { include: { user: { select: { name: true, email: true } } } },
+
+        reservations: includeGuests && {
+          include: {
+            guests: {
+              include: { guest: { include: { user: { select: { name: true, email: true } } } } },
+            },
+          },
+        },
+      },
+    });
   },
 
-  create: async (property: Property) => {
-    return property;
+  list: async (cursor) => {
+    return prisma.property.findMany({
+      take: 10,
+      skip: cursor ? 1 : 0,
+      cursor: cursor ? { id: cursor } : undefined,
+    });
+  },
+
+  create: async (property) => {
+    const { ownerId, ...rest } = property;
+
+    return prisma.property.create({
+      data: {
+        ...rest,
+        owner: {
+          connect: {
+            id: ownerId,
+          },
+        },
+      },
+    });
   },
 };
