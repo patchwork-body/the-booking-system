@@ -1,37 +1,63 @@
-# Turborepo kitchen sink starter
+# The booking system
 
-This is an official starter Turborepo with multiple meta-frameworks all working in harmony and sharing packages.
+This is the API for our booking application. It is built using Node.js, Express, Prisma and Supabase.
 
-## Using this example
+## Architecture
 
-Run the following command:
+The architecture of the project that implements a REST API using Node.js, Express.js, TypeScript, Prisma, Zod, and Supabase can be described as follows:
 
-```sh
-npx create-turbo@latest -e kitchen-sink
-```
+- **Presentation layer**: This layer handles incoming HTTP requests and outgoing HTTP responses. It is implemented using Express.js and OpenAPI. The OpenAPI specification is used to define the API endpoints and their input/output schemas.
+- **Application layer**: This layer contains the business logic of the application. It is implemented using TypeScript and Zod. Zod is used for input validation of incoming requests. The application layer interacts with the persistence layer to retrieve and manipulate data.
+- **Persistence layer**: This layer handles database interactions. It is implemented using Prisma and Supabase. Prisma is used as an ORM to interact with the database, while Supabase is used as the database itself. Supabase provides a PostgreSQL database with built-in authentication and authorization features.
 
-## What's inside?
+Overall, this architecture follows a layered approach, with each layer responsible for a specific set of tasks. The layers are loosely coupled, which allows for easier maintenance and scalability of the application.
 
-This Turborepo includes the following packages and apps:
+## Libraries
 
-### Apps and Packages
+The following libraries are used in this project:
 
-- `api`: an [Express](https://expressjs.com/) server
-- `storefront`: a [Next.js](https://nextjs.org/) app
-- `admin`: a [Vite](https://vitejs.dev/) single page app
-- `blog`: a [Remix](https://remix.run/) blog
-- `logger`: isomorphic logger (a small wrapper around console.log)
-- `ui`: a dummy React UI library (which contains a single `<CounterButton>` component)
-- `scripts`: Jest and ESLint configurations
-- `tsconfig`: tsconfig.json;s used throughout the monorepo
+- Express: A fast, unopinionated, minimalist web framework for Node.js.
+- OpenAPI: A specification for building APIs.
+- TypeScript: A typed superset of JavaScript that compiles to plain JavaScript.
+- Zod: A TypeScript-first schema validation library.
+- Prisma: A modern database toolkit for Node.js and TypeScript.
+- Supabase: An open-source alternative to Firebase.
 
-Each package and app is 100% [TypeScript](https://www.typescriptlang.org/).
+## Getting Started
 
-### Utilities
+To get started with development, follow these steps:
 
-This Turborepo has some additional tools already setup for you:
+1. Clone the repository:
+   `gh repo clone patchwork-body/the-booking-system`
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Jest](https://jestjs.io) test runner for all things JavaScript
-- [Prettier](https://prettier.io) for code formatting
+2. Install the dependencies:
+   `cd the-booking-system && pnpm install`
+
+3. Start the development server:
+   `pnpm dev`
+
+This will start the development server and watch for changes. You can access the API at `http://localhost:5001`.
+
+## Testing
+
+`pnpm test`
+
+To run the tests, use the following command:
+
+This will run the tests and output the results to the console.
+
+## Contributing
+
+If you'd like to contribute to this project, please follow these guidelines:
+
+1. Fork the repository
+2. Create a new branch for your feature or bug fix
+3. Make your changes and commit them with a descriptive message
+4. Push your changes to your fork
+5. Create a pull request
+
+We'll review your changes and merge them if they look good.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
