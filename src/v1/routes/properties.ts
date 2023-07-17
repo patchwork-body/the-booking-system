@@ -198,7 +198,23 @@ propertiesRouter.get(
   async (req: Request, res: Response) => {
     try {
       const reservations = await propertyService.reservations(req.params.id);
-      return res.status(200).json({ items: reservations, cursor: reservations[0]?.id });
+
+      const items =
+        reservations.flatMap((reservation) => {
+          const { guests, ...rest } = reservation;
+
+          return {
+            ...rest,
+            guests:
+              guests?.map(({ guest }) => {
+                const { user, ...rest } = guest ?? {};
+
+                return { ...user, ...rest };
+              }) ?? [],
+          };
+        }) ?? [];
+
+      return res.status(200).json({ items, cursor: items[0]?.id });
     } catch (error) {
       logger.fatal(error);
       return res.status(500).json({ message: 'Something went wrong' });
@@ -276,7 +292,6 @@ propertiesRouter.get(
   async (req: Request, res: Response) => {
     try {
       const chats = await propertyService.chats(req.params.id);
-
       return res.status(200).json({ items: chats, cursor: chats[0]?.id });
     } catch (error) {
       logger.fatal(error);

@@ -6,11 +6,11 @@ export const isOwner =
     const ownerId = req.jwtPayload?.ownerId;
 
     if (!ownerId) {
-      return res.status(403).json({ error: 'Forbidden' });
+      return res.status(403).json({ message: 'Forbidden' });
     }
 
     if (options?.certain && !req.params.id) {
-      return res.status(400).json({ error: 'Bad request' });
+      return res.status(400).json({ message: 'Bad request' });
     }
 
     if (options?.certain) {
@@ -21,11 +21,11 @@ export const isOwner =
       });
 
       if (!property) {
-        return res.status(404).json({ error: 'Property not found' });
+        return res.status(404).json({ message: 'Property not found' });
       }
 
       if (property.ownerId !== ownerId) {
-        return res.status(403).json({ error: 'Forbidden' });
+        return res.status(403).json({ message: 'Forbidden' });
       }
 
       return next();

@@ -29,8 +29,9 @@ guestsRouter.get(
   isGuest({ certain: true }),
   async (req, res) => {
     try {
-      const chats = await guestService.chats(req.params.id);
-      return res.status(200).json({ items: chats, cursor: chats[0]?.id });
+      const chatParticipants = await guestService.chats(req.params.id);
+      const items = chatParticipants.map(({ chat }) => chat);
+      return res.status(200).json({ items, cursor: items[0]?.id });
     } catch (error) {
       logger.fatal(error);
       return res.status(500).json({ message: 'Something went wrong' });

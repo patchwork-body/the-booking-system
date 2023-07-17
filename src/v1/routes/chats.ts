@@ -19,9 +19,16 @@ chatsRouter.get('/chats/:id/messages', isAuthorized, async (req: Request, res: R
         .json({ message: 'You should be a participant of this chat to see it' });
     }
 
-    return res
-      .status(200)
-      .json({ items: chat.messages, cursor: chat.messages[chat.messages.length - 1]?.id });
+    const items = chat.messages.map((message) => ({
+      id: message.id,
+      text: message.message,
+      createdAt: message.createdAt,
+      updatedAt: message.updatedAt,
+      senderId: message.participant.userId,
+      chatId: message.chatId,
+    }));
+
+    return res.status(200).json({ items: items, cursor: items[items.length - 1]?.id });
   } catch (error) {
     logger.fatal(error);
     return res.status(500).json({ message: 'Something went wrong' });

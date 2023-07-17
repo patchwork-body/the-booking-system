@@ -22,7 +22,7 @@ export const guestService: GuestService = {
   chats: async (id) => {
     return prisma.chatParticipant.findMany({
       where: {
-        id,
+        user: { guest: { id: id } },
       },
 
       include: {

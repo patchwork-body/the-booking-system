@@ -1241,7 +1241,6 @@ components:
       required:
         - id
         - propertyId
-        - guestId
       properties:
         id:
           type: string
@@ -1257,9 +1256,6 @@ components:
         propertyId:
           type: string
           description: The property ID
-        guestId:
-          type: string
-          description: The guest ID
 
     Message:
       type: object

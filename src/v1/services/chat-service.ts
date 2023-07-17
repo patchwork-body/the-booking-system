@@ -2,10 +2,8 @@ import { Chat, ChatParticipant, Message } from '@prisma/client';
 import { prisma } from './prisma/client';
 
 export interface ChatService {
-  messages: (
-    id: string,
-  ) => Promise<
-    | (Chat & { messages: Array<Message> } & {
+  messages: (id: string) => Promise<
+    | (Chat & { messages: Array<Message & { participant: Pick<ChatParticipant, 'userId'> }> } & {
         participants: Array<Pick<ChatParticipant, 'userId'>>;
       })
     | null
@@ -20,7 +18,11 @@ export const chatService: ChatService = {
       },
 
       include: {
-        messages: true,
+        messages: {
+          include: {
+            participant: { select: { userId: true } },
+          },
+        },
 
         participants: {
           select: {
