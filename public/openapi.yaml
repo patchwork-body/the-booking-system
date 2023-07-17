@@ -1,7 +1,7 @@
 openapi: '3.0.0'
 
 info:
-  version: 1.0.3
+  version: 1.0.4
   title: The Booking System API
   description: The assignment for the Minut
 
@@ -970,6 +970,7 @@ components:
       required:
         - accessToken
         - refreshToken
+        - user
       properties:
         accessToken:
           type: string
@@ -977,6 +978,40 @@ components:
         refreshToken:
           type: string
           description: The JWT refresh token
+        user:
+          type: object
+          description: The user data
+          properties:
+            id:
+              type: string
+              description: The related role-based ID
+            userId:
+              type: string
+              description: The user ID
+            createdAt:
+              type: string
+              format: date-time
+              description: The user creation date
+            updatedAt:
+              type: string
+              format: date-time
+              description: The user update date
+            name:
+              type: string
+              description: The user name
+            email:
+              type: string
+              format: email
+              description: The user email
+            phone:
+              type: string
+              description: The user phone
+            role:
+              type: string
+              enum:
+                - OWNER
+                - GUEST
+              description: The user role
 
     PropertyRequestBody:
       type: object

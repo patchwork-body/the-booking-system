@@ -11,9 +11,26 @@ export const authRouter = Router();
 
 authRouter.post('/auth/login', async (req, res) => {
   try {
-    const tokens = await authService.login(req.body.email, req.body.secret);
+    const { user, accessToken, refreshToken } = await authService.login(
+      req.body.email,
+      req.body.secret,
+    );
 
-    res.status(200).json(tokens);
+    res.status(200).json({
+      user: {
+        id: user.role === Role.OWNER ? user.propertyOwner?.id : user.guest?.id,
+        userId: user.id,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
+      },
+
+      accessToken,
+      refreshToken,
+    });
   } catch (error) {
     if (error instanceof AuthError) {
       logger.error(error.message);

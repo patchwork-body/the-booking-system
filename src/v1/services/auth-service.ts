@@ -4,10 +4,19 @@ import jwt from 'jsonwebtoken';
 import invariant from 'tiny-invariant';
 
 import { prisma } from './prisma/client';
-import { Role, User } from '@prisma/client';
+import { Guest, PropertyOwner, Role, User } from '@prisma/client';
 
 export interface AuthService {
-  login: (email: string, secret: string) => Promise<{ accessToken: string; refreshToken: string }>;
+  login: (
+    email: string,
+    secret: string,
+  ) => Promise<{
+    accessToken: string;
+    refreshToken: string;
+    user: User & { propertyOwner?: Pick<PropertyOwner, 'id'> | null } & {
+      guest?: Pick<Guest, 'id'> | null;
+    };
+  }>;
   register: (user: Pick<User, 'name' | 'email' | 'phone' | 'role'>) => Promise<string>;
   refresh: (refreshToken: string) => Promise<string>;
   revoke: (refreshToken: string) => Promise<void>;
@@ -67,7 +76,7 @@ export const authService: AuthService = {
       },
     );
 
-    return { accessToken, refreshToken };
+    return { user, accessToken, refreshToken };
   },
 
   register: async (userData) => {
