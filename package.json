@@ -7,7 +7,9 @@
     "test": "TEST_MODE=on vitest --threads false",
     "build": "tsup src/index.ts --format cjs --publicDir",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
-    "dev": "tsup src/index.ts --format cjs --publicDir --watch --onSuccess \"node dist/index.js | pino-pretty\"",
+    "dev:db": "supabase start && prisma migrate deploy && prisma generate",
+    "dev:app": "tsup src/index.ts --format cjs --publicDir --watch --onSuccess \"node dist/index.js | pino-pretty\"",
+    "dev": "pnpm run dev:db && pnpm run dev:app",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\"",
     "start": "node dist/index.js",
     "postinstall": "prisma generate"
