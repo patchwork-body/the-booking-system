@@ -2,6 +2,10 @@
 
 This is the API for our booking application. It is built using Node.js, Express, Prisma and Supabase.
 
+- The application is deployed in [Heroku](https://the-booking-app-7c531e760e9b.herokuapp.com/)
+- Api documentation available [here](https://app.swaggerhub.com/apis/PERSONALGUGFUG/the-booking_system_api/1.0.5)
+- Loom [video](https://www.loom.com/share/31be2772299145e9833db95a0b880d75?sid=9386e845-2242-44a5-ae7a-e9ba4f1c133e) with demo
+
 ## Architecture
 
 The architecture of the project that implements a REST API using Node.js, Express.js, TypeScript, Prisma, Zod, and Supabase can be described as follows:
@@ -28,19 +32,30 @@ The following libraries are used in this project:
 To get started with development, follow these steps:
 
 1. Clone the repository:
-   `gh repo clone patchwork-body/the-booking-system`
 
-2. Install the dependencies:
-   `cd the-booking-system && pnpm install`
+```sh
+gh repo clone patchwork-body/the-booking-system
+```
 
-3. Start the development server:
-   `pnpm dev`
+1. Install the dependencies:
+
+```sh
+cd the-booking-system && pnpm install
+```
+
+1. Clone the repository:
+
+```sh
+pnpm dev
+```
 
 This will start the development server and watch for changes. You can access the API at `http://localhost:5001`.
 
 ## Testing
 
-`pnpm test`
+```sh
+pnpm test
+```
 
 To run the tests, use the following command:
 
@@ -61,3 +76,170 @@ We'll review your changes and merge them if they look good.
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+```txt
+GET /v1/properties HTTP/1.1
+Host: the-booking-app-7c531e760e9b.herokuapp.com
+Connection: close
+User-Agent: RapidAPI/4.2.0 (Macintosh; OS X/13.4.1) GCDHTTPRequest
+
+
+
+POST /v1/auth/register HTTP/1.1
+Content-Type: application/json
+Host: the-booking-app-7c531e760e9b.herokuapp.com
+Connection: close
+User-Agent: RapidAPI/4.2.0 (Macintosh; OS X/13.4.1) GCDHTTPRequest
+Content-Length: 88
+
+{"email":"kirill.owner@mail.com","name":"Kirill","role":"OWNER","phone":"+381677812033"}
+
+POST /v1/auth/register HTTP/1.1
+Content-Type: application/json
+Host: the-booking-app-7c531e760e9b.herokuapp.com
+Connection: close
+User-Agent: RapidAPI/4.2.0 (Macintosh; OS X/13.4.1) GCDHTTPRequest
+Content-Length: 88
+
+{"email":"kirill.guest@mail.com","name":"Kirill","role":"GUEST","phone":"+381637812033"}
+
+POST /v1/auth/login HTTP/1.1
+Content-Type: application/json
+Host: the-booking-app-7c531e760e9b.herokuapp.com
+Connection: close
+User-Agent: RapidAPI/4.2.0 (Macintosh; OS X/13.4.1) GCDHTTPRequest
+Content-Length: 77
+
+{"email":"kirill.owner@mail.com","secret":"PCvHNtudNE4EQCDp7L2e5D30JRlDBOLo"}
+
+POST /v1/auth/login HTTP/1.1
+Content-Type: application/json
+Host: the-booking-app-7c531e760e9b.herokuapp.com
+Connection: close
+User-Agent: RapidAPI/4.2.0 (Macintosh; OS X/13.4.1) GCDHTTPRequest
+Content-Length: 77
+
+{"email":"kirill.guest@mail.com","secret":"7MXUOriYc7RWxRiKnzuQeRKsqHu8TE5y"}
+
+POST /v1/auth/refresh HTTP/1.1
+Content-Type: application/json; charset=utf-8
+Host: the-booking-app-7c531e760e9b.herokuapp.com
+Connection: close
+User-Agent: RapidAPI/4.2.0 (Macintosh; OS X/13.4.1) GCDHTTPRequest
+Content-Length: 247
+
+{"refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbGs2Z3A0cGgwMDAwdXIwa3d2MnFsNWI2IiwidG9rZW5JZCI6ImNsazZndjRxeTAwMDZ1cjBrOXJ5eGg1cjYiLCJpYXQiOjE2ODk1NzQyMTYsImV4cCI6MTY5MDE3OTAxNn0.hhED_tOGvbqkxQly1QnFHR2RjshSJ2WYNul89DApWDg"}
+
+POST /v1/auth/revoke HTTP/1.1
+Content-Type: application/json; charset=utf-8
+Host: the-booking-app-7c531e760e9b.herokuapp.com
+Connection: close
+User-Agent: RapidAPI/4.2.0 (Macintosh; OS X/13.4.1) GCDHTTPRequest
+Content-Length: 247
+
+{"refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbGs2Z3A0cGgwMDAwdXIwa3d2MnFsNWI2IiwidG9rZW5JZCI6ImNsazZncjF3OTAwMDR1cjBrZ3MycDhodWoiLCJpYXQiOjE2ODk1NzQwMjUsImV4cCI6MTY5MDE3ODgyNX0.qMkpeT8W4OzQ2TPKMZBqaSlzh-bxb1iEtIQYtITNTtw"}
+
+GET /v1/properties/clk6gx0mi0007ur0knbidd129 HTTP/1.1
+Content-Type: application/json; charset=utf-8
+Host: the-booking-app-7c531e760e9b.herokuapp.com
+Connection: close
+User-Agent: RapidAPI/4.2.0 (Macintosh; OS X/13.4.1) GCDHTTPRequest
+
+
+
+POST /v1/properties HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbGs2Z3A0cGgwMDAwdXIwa3d2MnFsNWI2Iiwib3duZXJJZCI6ImNsazZncDRwdDAwMDJ1cjBrdmRzeTExbGciLCJyb2xlIjoiT1dORVIiLCJpYXQiOjE2ODk1NzQyMjQsImV4cCI6MTY4OTU3NzgyNH0.rrIdzy9msO0dev4WnOKxqIRdUI8XMNFcJYH8mz6F_zo
+Content-Type: application/json; charset=utf-8
+Host: the-booking-app-7c531e760e9b.herokuapp.com
+Connection: close
+User-Agent: RapidAPI/4.2.0 (Macintosh; OS X/13.4.1) GCDHTTPRequest
+Content-Length: 124
+
+{"name":"asdf","address":"asdf","price":1000,"currency":"USD","bathrooms":2,"bedrooms":3,"description":"awesome appartment"}
+
+PATCH /v1/properties/clk6gx0mi0007ur0knbidd129 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbGs2Z3A0cGgwMDAwdXIwa3d2MnFsNWI2Iiwib3duZXJJZCI6ImNsazZncDRwdDAwMDJ1cjBrdmRzeTExbGciLCJyb2xlIjoiT1dORVIiLCJpYXQiOjE2ODk1NzQyMjQsImV4cCI6MTY4OTU3NzgyNH0.rrIdzy9msO0dev4WnOKxqIRdUI8XMNFcJYH8mz6F_zo
+Content-Type: application/json
+Host: the-booking-app-7c531e760e9b.herokuapp.com
+Connection: close
+User-Agent: RapidAPI/4.2.0 (Macintosh; OS X/13.4.1) GCDHTTPRequest
+Content-Length: 33
+
+{"name":"new name","price":10000}
+
+DELETE /v1/properties/clk6gx0mi0007ur0knbidd129 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbGs2Z3A0cGgwMDAwdXIwa3d2MnFsNWI2Iiwib3duZXJJZCI6ImNsazZncDRwdDAwMDJ1cjBrdmRzeTExbGciLCJyb2xlIjoiT1dORVIiLCJpYXQiOjE2ODk1NzQyMjQsImV4cCI6MTY4OTU3NzgyNH0.rrIdzy9msO0dev4WnOKxqIRdUI8XMNFcJYH8mz6F_zo
+Host: the-booking-app-7c531e760e9b.herokuapp.com
+Connection: close
+User-Agent: RapidAPI/4.2.0 (Macintosh; OS X/13.4.1) GCDHTTPRequest
+
+
+
+GET /v1/properties/clk6gx0mi0007ur0knbidd129/owner HTTP/1.1
+Host: the-booking-app-7c531e760e9b.herokuapp.com
+Connection: close
+User-Agent: RapidAPI/4.2.0 (Macintosh; OS X/13.4.1) GCDHTTPRequest
+
+
+
+GET /v1/properties/clk6gx0mi0007ur0knbidd129/reservations HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbGs2Z3A0cGgwMDAwdXIwa3d2MnFsNWI2Iiwib3duZXJJZCI6ImNsazZncDRwdDAwMDJ1cjBrdmRzeTExbGciLCJyb2xlIjoiT1dORVIiLCJpYXQiOjE2ODk1NzQyMjQsImV4cCI6MTY4OTU3NzgyNH0.rrIdzy9msO0dev4WnOKxqIRdUI8XMNFcJYH8mz6F_zo
+Host: the-booking-app-7c531e760e9b.herokuapp.com
+Connection: close
+User-Agent: RapidAPI/4.2.0 (Macintosh; OS X/13.4.1) GCDHTTPRequest
+
+
+
+POST /v1/properties/clk6gx0mi0007ur0knbidd129/reservations HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbGs2aHFiaXAwMDA0cXgwa3RhNjh3a2ViIiwiZ3Vlc3RJZCI6ImNsazZocWJpdDAwMDZxeDBramVtY2ltNjEiLCJyb2xlIjoiR1VFU1QiLCJpYXQiOjE2ODk1NzU3MDMsImV4cCI6MTY4OTU3OTMwM30.Q9n_WM1D8Q7HlY1McS4Qe47qkGKnEnOqMaWpB-6bisU
+Accept: application/json
+Content-Type: application/json; charset=utf-8
+Host: the-booking-app-7c531e760e9b.herokuapp.com
+Connection: close
+User-Agent: RapidAPI/4.2.0 (Macintosh; OS X/13.4.1) GCDHTTPRequest
+Content-Length: 109
+
+{"checkIn":"2023-12-10T14:30:00Z","checkOut":"2023-12-16T14:30:00Z","guestIds":["clk6hqbit0006qx0kjemcim61"]}
+
+GET /v1/properties/clk6gx0mi0007ur0knbidd129/chats HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbGs2Z3A0cGgwMDAwdXIwa3d2MnFsNWI2Iiwib3duZXJJZCI6ImNsazZncDRwdDAwMDJ1cjBrdmRzeTExbGciLCJyb2xlIjoiT1dORVIiLCJpYXQiOjE2ODk1NzQyMjQsImV4cCI6MTY4OTU3NzgyNH0.rrIdzy9msO0dev4WnOKxqIRdUI8XMNFcJYH8mz6F_zo
+Host: the-booking-app-7c531e760e9b.herokuapp.com
+Connection: close
+User-Agent: RapidAPI/4.2.0 (Macintosh; OS X/13.4.1) GCDHTTPRequest
+
+
+
+GET /v1/guests/clk6hqbit0006qx0kjemcim61/reservations HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbGs2aHFiaXAwMDA0cXgwa3RhNjh3a2ViIiwiZ3Vlc3RJZCI6ImNsazZocWJpdDAwMDZxeDBramVtY2ltNjEiLCJyb2xlIjoiR1VFU1QiLCJpYXQiOjE2ODk1NzU3MDMsImV4cCI6MTY4OTU3OTMwM30.Q9n_WM1D8Q7HlY1McS4Qe47qkGKnEnOqMaWpB-6bisU
+Host: the-booking-app-7c531e760e9b.herokuapp.com
+Connection: close
+User-Agent: RapidAPI/4.2.0 (Macintosh; OS X/13.4.1) GCDHTTPRequest
+
+
+
+GET /v1/guests/clk6hqbit0006qx0kjemcim61/chats HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbGs2aHFiaXAwMDA0cXgwa3RhNjh3a2ViIiwiZ3Vlc3RJZCI6ImNsazZocWJpdDAwMDZxeDBramVtY2ltNjEiLCJyb2xlIjoiR1VFU1QiLCJpYXQiOjE2ODk1NzU3MDMsImV4cCI6MTY4OTU3OTMwM30.Q9n_WM1D8Q7HlY1McS4Qe47qkGKnEnOqMaWpB-6bisU
+Host: the-booking-app-7c531e760e9b.herokuapp.com
+Connection: close
+User-Agent: RapidAPI/4.2.0 (Macintosh; OS X/13.4.1) GCDHTTPRequest
+
+
+
+GET /v1/reservations/clk6hrul80009qx0kq39n3as7 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbGs2aHFiaXAwMDA0cXgwa3RhNjh3a2ViIiwiZ3Vlc3RJZCI6ImNsazZocWJpdDAwMDZxeDBramVtY2ltNjEiLCJyb2xlIjoiR1VFU1QiLCJpYXQiOjE2ODk1NzU3MDMsImV4cCI6MTY4OTU3OTMwM30.Q9n_WM1D8Q7HlY1McS4Qe47qkGKnEnOqMaWpB-6bisU
+Host: the-booking-app-7c531e760e9b.herokuapp.com
+Connection: close
+User-Agent: RapidAPI/4.2.0 (Macintosh; OS X/13.4.1) GCDHTTPRequest
+
+
+
+GET /v1/chats/clk6dggat000dvkgvfcl5pern/messages HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbGs2aHFiaXAwMDA0cXgwa3RhNjh3a2ViIiwiZ3Vlc3RJZCI6ImNsazZocWJpdDAwMDZxeDBramVtY2ltNjEiLCJyb2xlIjoiR1VFU1QiLCJpYXQiOjE2ODk1NzU3MDMsImV4cCI6MTY4OTU3OTMwM30.Q9n_WM1D8Q7HlY1McS4Qe47qkGKnEnOqMaWpB-6bisU
+Host: the-booking-app-7c531e760e9b.herokuapp.com
+Connection: close
+User-Agent: RapidAPI/4.2.0 (Macintosh; OS X/13.4.1) GCDHTTPRequest
+
+
+
+
+```
