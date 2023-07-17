@@ -1,7 +1,7 @@
 openapi: '3.0.0'
 
 info:
-  version: 1.0.4
+  version: 1.0.5
   title: The Booking System API
   description: The assignment for the Minut
 
